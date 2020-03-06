@@ -1,0 +1,52 @@
+#include <kipr/wombat.h>
+
+void forward(int speed, int distance)               
+{
+    set_create_distance(0);					//set encoder to 0
+    while(get_create_distance() < distance)
+    {
+        create_drive_direct(speed, speed);	//forward
+    }
+    create_stop();
+}
+
+void reverse(int speed, int distance)               
+{
+    set_create_distance(0);					//set encoder to 0
+    while(get_create_distance() > -distance)
+    {
+        create_drive_direct(-speed, -speed);//revrese
+    }
+    create_stop();
+}
+
+void right_turn(int speed, int angle)
+{
+    set_create_total_angle(0);
+    while(get_create_total_angle() > -angle)
+    {
+    	create_drive_direct(speed, -speed);		//turn right
+    }
+    create_stop();
+}
+
+void left_turn(int speed, int angle)
+{
+    set_create_total_angle(0);
+    while(get_create_total_angle() < angle)
+    {
+    create_drive_direct(-speed, speed);		//turn left
+    }
+    create_stop();
+}
+
+//-----------------------------------------------------------------------------------------------------------------------
+
+int main()
+{
+    create_connect();
+	left_turn(100, 360);
+	create_stop();
+    create_disconnect();
+    return 0;
+}
